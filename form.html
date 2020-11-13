@@ -4,46 +4,47 @@
     <meta charset="utf-8">
     <title>Form Validation</title>
     <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
   </head>
   <body>
     <div class="container">
       <h1>Pre-paid Parking Form</h1>
-      <form id="parking-form">
+      <form id="parking-form" action="/" method="POST">
         <div class="input-field" id="name-field">
           <label for="name">Name</label>
-          <input id="name" type="text">
+          <input id="name" type="text" required>
         </div>
         <div class="input-field" id="car-field">
           <label for="car-year">Car</label>
           <div class="input-group">
-            <input id="car-year" type="text" placeholder="Year">
-            <input id="car-make" type="text" placeholder="Make">
-            <input id="car-model" type="text" placeholder="Model">
+            <input id="car-year" placeholder="Year" required  min="1900" type="number">
+            <input id="car-make" type="text" placeholder="Make" required>
+            <input id="car-model" type="text" placeholder="Model" required>
           </div>
         </div>
         <div class="input-field" id="start-date-field">
           <label for="start-date">Date parking</label>
-          <input id="start-date" type="date">
+          <input id="start-date" type="date" required>
         </div>
         <div class="input-field" id="days-field">
           <label for="days">Number of days</label>
-          <input id="days" type="text">
+          <input id="days" required type="number" min="1" max="30">
         </div>
         <div class="input-field" id="credit-card-field">
           <label for="credit-card">Credit Card</label>
-          <input id="credit-card" type="text">
+          <input id="credit-card" type="text" required>
         </div>
         <div class="row">
           <div class="col">
             <div class="input-field" id="cvv-field">
               <label for="cvv">CVV</label>
-              <input id="cvv" type="text">
+              <input id="cvv" type="text" required pattern="\d{3}">
             </div>
           </div>
           <div class="col">
             <div class="input-field" id="expiration-field">
               <label for="expiration">Expiration</label>
-              <input id="expiration" type="text" placeholder="MM/YY">
+              <input id="expiration" type="text" placeholder="MM/YY" required>
             </div>
           </div>
         </div>
