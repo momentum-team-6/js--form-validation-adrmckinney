@@ -1,4 +1,5 @@
 const form = document.querySelector('#parking-form')
+const creditCardNum = document.querySelector('#credit-card')
 
 form.addEventListener('submit', function(event) {
     event.preventDefault() 
@@ -6,55 +7,107 @@ form.addEventListener('submit', function(event) {
     calculateCost()
 })
 
+function displayCost(amount) {
+    let displayDiv = document.querySelector("#total")
+    displayDiv.innerHTML = `<div class="cost-result">Your total cost is ${amount}</div>`
+}
 
+// CAR YEAR VALIDATION START
+const carYear = document.querySelector('#car-year')
+carYear.addEventListener('change', function(evnt) {
+    let currentYear = new Date().getFullYear()
+    let earliestYear = '1900'
+    
+    if (carYear.value < earliestYear || carYear.value > currentYear) {
+        carYear.setCustomValidity('Cars made before 1900 are gross and aren\'t allowed to park here')
+    } else {
+        carYear.setCustomValidity('')
+    }
+})
+// CAR YEAR VALIDATION END
+
+// CALCULATING COST TO CLIENT START
 function calculateCost() {
     let numberOfDays = document.querySelector("#days").value
-    let result = eval(numberOfDays * 5)
-    console.log(result)
-    //update DOM with the total cost in the #total div
-    let displayDiv = document.querySelector("#total")
-    displayDiv.innerHTML = `<div class="cost-result">Your total cost is ${result}</div>`
-    // alternatively, I could do: 
-    // let newElement = document.createElement("div")
-    // newElement.innerText = result
-    // displayDiv.appendChild(newElement)
+    let today = new Date() 
+    let amount = 0
 
-    // to retrieve the date 
-    let startDate = document.querySelector('#start-date').value
-    let newDate = ""
-    
-    for (let i = 0; i < startDate.length; i++) {
-        newDate += startDate[i]
-       
-        // create function to find and remove "/" characters
-        let slashRemoved = []
-
-        
-        
-        for (let slash of startDate) {
-            if (slash === "-") {
-                slash.indexOf(startDate)
-                slashRemoved.splice(slash, 0, ",")
-                slashRemoved.push(startDate)
-            }
-        } 
-        
-        // adding commas to newDate
-        if (i < slashRemoved.length - 1) {
-            newDate += ", "
+    for (let i = 0; i < numberOfDays; i++) {
+        let day = new Date()
+        day.setDate(today.getDate() + i)
+        // weekend cost
+        if (day.getDay() === 0 || day.getDay() === 6) {
+            amount += 7
+        // weekday cost
+        } else {
+            amount += 5
         }
-        console.log(slashRemoved)
-        // console.log(newDate)
     }
-    
-    // need to group the last four characters and not add commas
-
-    // create new array to push new date into
-    // create a date with an argument
-    // new Date(2017, 3, 22, 5, 23, 50) = year, month, day, hour, min, sec, millisecond (no need to include the time)
-    // NOTE month is zero-indexed
-    // the new array will need to be spaced with commas
+    displayCost(amount)
 }
+
+// function calculateCost2() {
+//     let numberOfDays = document.querySelector("#days").value
+//     let today = new Date()
+
+// CALCULATING COST TO CLIENT END
+
+
+// CREDIT CARD VALIDATION START
+creditCardNum.addEventListener ('change', function(event) {
+    if (validateCardNumber(creditCardNum.value) === false) {
+        creditCardNum.setCustomValidity('Not a valid credit card number')
+    } else {
+        creditCardNum.setCustomValidity("")
+    }
+})
+
+function validateCardNumber(number) {
+    let regex = new RegExp("^[0-9]{16}$");
+    if (!regex.test(number))
+        return false;
+
+    return luhnCheck(number);
+}
+
+function luhnCheck(val) {
+    let sum = 0;
+    for (let i = 0; i < val.length; i++) {
+        let intVal = parseInt(val.substr(i, 1));
+        if (i % 2 == 0) {
+            intVal *= 2;
+            if (intVal > 9) {
+                intVal = 1 + (intVal % 10);
+            }
+        }
+        sum += intVal;
+    }
+    return (sum % 10) == 0;
+}
+// CREDIT CARD VALIDATION END
+
+// EXPIRATION DATE VALIDATION START
+// const exDate = document.querySelector('#expiration')
+// exDate.addEventListener('change', function(event) {
+//     let currentYear = new Date().getFullYear()
+//     let currentMonth = new Date().getMonth()
+//     let exMonth = 0
+//     let exYear = 0
+
+//     for (let i = 0; i < exDate.length - 3; i++) {
+//         exMonth.push(i)
+//         console.log(exMonth)
+//     } if (exMonth < currentMonth) {
+//         console.log('Month is too high')
+//     }
+
+//     // if (exDate > curentMonth) {
+
+//     // }
+    
+// })
+
+// EXPIRATION DATE VALIDATION START
 
 function validate(){
     //call other functions, one after another

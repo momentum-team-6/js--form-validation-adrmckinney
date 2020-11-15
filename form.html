@@ -17,7 +17,7 @@
         <div class="input-field" id="car-field">
           <label for="car-year">Car</label>
           <div class="input-group">
-            <input id="car-year" placeholder="Year" required  min="1900" type="number">
+            <input id="car-year" placeholder="Year" required type="number">
             <input id="car-make" type="text" placeholder="Make" required>
             <input id="car-model" type="text" placeholder="Model" required>
           </div>
@@ -44,7 +44,7 @@
           <div class="col">
             <div class="input-field" id="expiration-field">
               <label for="expiration">Expiration</label>
-              <input id="expiration" type="text" placeholder="MM/YY" required>
+              <input id="expiration" type="text" placeholder="MM/YY" required pattern="\d{2}\/\d{2}">
             </div>
           </div>
         </div>
