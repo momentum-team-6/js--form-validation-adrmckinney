@@ -16,11 +16,14 @@ function displayCost(amount) {
 const carYear = document.querySelector('#car-year')
 carYear.addEventListener('change', function(evnt) {
     let currentYear = new Date().getFullYear()
-    let earliestYear = '1900'
+    let earliestYear = 1900
     
-    if (carYear.value < earliestYear || carYear.value > currentYear) {
+    if (carYear.value < earliestYear) {
         carYear.setCustomValidity('Cars made before 1900 are gross and aren\'t allowed to park here')
-    } else {
+    } else if (carYear.value > currentYear) {
+        carYear.setCustomValidity("Your car doesn\'t exist yet")
+    }
+    else {
         carYear.setCustomValidity('')
     }
 })
@@ -86,26 +89,49 @@ function luhnCheck(val) {
 }
 // CREDIT CARD VALIDATION END
 
+
 // EXPIRATION DATE VALIDATION START
-// const exDate = document.querySelector('#expiration')
-// exDate.addEventListener('change', function(event) {
-//     let currentYear = new Date().getFullYear()
-//     let currentMonth = new Date().getMonth()
-//     let exMonth = 0
-//     let exYear = 0
+function validateExpirationDate(inputValue) {
+    console.log(inputValue)
+    let dateParts = inputValue.split('/')
+    console.log(dateParts)
 
-//     for (let i = 0; i < exDate.length - 3; i++) {
-//         exMonth.push(i)
-//         console.log(exMonth)
-//     } if (exMonth < currentMonth) {
-//         console.log('Month is too high')
-//     }
-
-//     // if (exDate > curentMonth) {
-
-//     // }
+    let firstString = dateParts[0]
+    let secondString = dateParts[1]
     
-// })
+    let monthStringToNumber = Number(firstString)
+    let yearStringToNumber = Number(secondString) + 2000
+    
+    let newDate = new Date(yearStringToNumber, monthStringToNumber - 1)
+    console.log(newDate)
+
+    // month validation
+    if (monthStringToNumber < 1 || monthStringToNumber > 12) {
+        exDate.setCustomValidity("Invalid month")
+        return
+    }
+
+    // year validation
+// if (yearStringToNumber)
+    if (yearStringToNumber < 2020 || yearStringToNumber > 2099) {
+        exDate.setCustomValidity('Invalid year')
+    } else {
+        exDate.setCustomValidity('')
+    }
+
+    // Expiration validation
+    if (newDate < new Date()) {
+        exDate.setCustomValidity("Your card has expired")
+    } else {
+        exDate.setCustomValidity('')
+    }
+}
+
+
+const exDate = document.querySelector('#expiration')
+exDate.addEventListener('change', function(event) {
+    validateExpirationDate(event.target.value)
+})
 
 // EXPIRATION DATE VALIDATION START
 
