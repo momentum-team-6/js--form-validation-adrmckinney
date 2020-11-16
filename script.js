@@ -89,6 +89,36 @@ function luhnCheck(val) {
 }
 // CREDIT CARD VALIDATION END
 
+// DATE PARKING VALIDATION START
+const parkingDate = document.querySelector('#start-date')
+
+function validateParkingDate(inputValue) {
+    const parkingDate = document.querySelector('#start-date')
+    let dateParts = inputValue.split('-')
+
+    let yearString = dateParts[0]
+    let monthString = dateParts[1]
+    let dayString = dateParts[2]
+
+    let yearStringToNumber = Number(yearString)
+    let monthStringToNumber = Number(monthString)
+    let dayStringToNumber = Number(dayString)
+
+    let newDate = new Date(yearStringToNumber, monthStringToNumber - 1, dayStringToNumber)
+    console.log(newDate)
+
+    if (newDate < new Date()) {
+        parkingDate.setCustomValidity('Parking date must be in the future')
+    } else {
+        parkingDate.setCustomValidity('')
+    }
+}
+
+parkingDate.addEventListener('change', function (event) {
+    validateParkingDate(event.target.value)  
+})
+
+// DATE PARKING VALIDATION END
 
 // EXPIRATION DATE VALIDATION START
 function validateExpirationDate(inputValue) {
@@ -96,11 +126,11 @@ function validateExpirationDate(inputValue) {
     let dateParts = inputValue.split('/')
     console.log(dateParts)
 
-    let firstString = dateParts[0]
-    let secondString = dateParts[1]
+    let monthString = dateParts[0]
+    let yearString = dateParts[1]
     
-    let monthStringToNumber = Number(firstString)
-    let yearStringToNumber = Number(secondString) + 2000
+    let monthStringToNumber = Number(monthString)
+    let yearStringToNumber = Number(yearString) + 2000
     
     let newDate = new Date(yearStringToNumber, monthStringToNumber - 1)
     console.log(newDate)
@@ -112,7 +142,6 @@ function validateExpirationDate(inputValue) {
     }
 
     // year validation
-// if (yearStringToNumber)
     if (yearStringToNumber < 2020 || yearStringToNumber > 2099) {
         exDate.setCustomValidity('Invalid year')
     } else {
